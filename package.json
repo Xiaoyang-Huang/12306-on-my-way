@@ -1,0 +1,25 @@
+{
+  "name": "buy-a-train",
+  "version": "1.0.0",
+  "description": "search on 12306 just for a train ticket",
+  "main": "index.js",
+  "keywords": [
+    "12306",
+    "ticket"
+  ],
+  "author": "Huang Xiaoyang",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.15.3",
+    "browser-sync": "^2.18.7",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-webpack": "^1.5.0",
+    "jsx-loader": "^0.13.2",
+    "react": "^15.4.2",
+    "react-autocomplete": "^1.4.0",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0"
+  }
+}
