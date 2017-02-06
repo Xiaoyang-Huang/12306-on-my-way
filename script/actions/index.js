@@ -8,7 +8,7 @@ module.exports.getStations = function (stations) {
     //@bjb|北京北|VAP|beijingbei|bjb|0
     data.push({
       name: dataItems[1],
-      code:dataItems[2],
+      code: dataItems[2],
       pinyin: dataItems[3]
     })
   }
@@ -39,19 +39,42 @@ module.exports.setDepartureTime = function (value) {
   }
 }
 
-module.exports.searchData = function(){
-  return function(dispatch, getState){
+module.exports.searchData = function () {
+  return function (dispatch, getState) {
     console.log("searchData", getState())
     var state = getState();
-    // axios.get(constant.api.query(state.form.origin, state.form.destination, state.form.setDepartureTime))
-    //   .then(function(){
-    //     console.log("!!!!!!!!!!", arguments)
-    //   })
-    var stationLoad = document.createElement('img');
-    stationLoad.src = constant.api.query(state.form.origin.code, state.form.destination.code, "2017-02-07");
-    stationLoad.onload = function(){
-      console.dir("!!!!!!", stationLoad)
-    }
-    document.body.appendChild(stationLoad);
+    //"C:\Users\UserName\AppData\Local\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir
+    //open -a "Google Chrome" --args --disable-web-security  --user-data-dir
+    axios.get(constant.api.query(state.form.origin.code, state.form.destination.code, "2017-02-08"))
+      .then(function(){
+        console.log("!!!!!!!!!!", arguments)
+      }, function(){
+        console.log("??????????", arguments)
+      })
+
+    // $.getJSON(constant.api.query(state.form.origin.code, state.form.destination.code, "2017-02-08"), {}, function (data) {
+    //       if (data.query.results) {
+    //           var J_data = JSON.parse(JSON.stringify(data.query.results));
+    //           console.log("!!!!!!", J_data);
+    //       } else {
+    //           console.log("??????", J_data);
+    //       }
+    //   });
+
+    // var stationLoad = document.createElement('script');
+    // stationLoad.src = constant.api.query(state.form.origin.code, state.form.destination.code, "2017-02-08");
+    // stationLoad.onreadystatechange = function(){
+    //   console.log('onreadystatechange')
+    // }
+    // stationLoad.onload = function () {
+    //   for (var i in stationLoad) {
+    //     try {
+    //       console.log(i, stationLoad[i]);
+    //     } catch (e) {
+    //       console.error(e);
+    //     }
+    //   }
+    // }
+    // document.body.appendChild(stationLoad);
   }
 }
