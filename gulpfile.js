@@ -3,6 +3,7 @@ var path = require('path');
 var gulp = require('gulp');
 var webpack = require('gulp-webpack');
 var concat = require('gulp-concat');
+var gulpWatch = require('gulp-watch');
 
 var browserSync = require('browser-sync').create();
 
@@ -28,8 +29,12 @@ gulp.task('default', ['style', 'script'], function(){
     },
     open: false
   })
-  gulp.watch(['./script/**/*.jsx', './script/**/*.js'], ['script']);
-  gulp.watch('./style/*.css', ['style']);
+  gulpWatch(['./script/**/*.jsx', './script/**/*.js'], function(){
+    gulp.start('script');
+  });
+  gulpWatch('./style/*.css', function(){
+    gulp.start('style');
+  });
 })
 
 gulp.task('style', function(){
