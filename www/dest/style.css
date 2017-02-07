@@ -401,9 +401,9 @@
   border-radius: 4px;
 }
 * { margin: 0; padding: 0;}
-#main{ width: 980px; margin: 0 auto;}
+#main{ width: 800px; margin: 0 auto;}
 
-ul.form { margin: 10px 0;}
+ul.form { margin: 10px 0; list-style: none}
 ul.form:after{ content: ''; display: block; clear: both; height: 0; line-height: 0;}
 ul.form > li{ float: left;}
 ul.form > li span{ display: inline-block; padding: 0 10px;}
@@ -415,7 +415,7 @@ ul.form button.submit{ padding: 0px 20px; font-family: Helvetica, sans-serif; fo
 }
 
 .react-autosuggest__input {
-  width: 155px;
+  width: 148px;
   height: 30px;
   padding: 0px 10px;
   font-family: Helvetica, sans-serif;
@@ -442,7 +442,7 @@ ul.form button.submit{ padding: 0px 20px; font-family: Helvetica, sans-serif; fo
   display: block;
   position: absolute;
   top: 31px;
-  width: 175px;
+  width: 168px;
   border: 1px solid #aaa;
   background-color: #fff;
   font-family: Helvetica, sans-serif;
@@ -463,7 +463,7 @@ ul.form button.submit{ padding: 0px 20px; font-family: Helvetica, sans-serif; fo
 
 .react-autosuggest__suggestion {
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 10px;
 }
 
 .react-autosuggest__suggestion--focused {

@@ -15,6 +15,9 @@ module.exports = function (state, action) {
     case constant.actions.SET_DEPARTURE_TIME:
       change.form.time = action.data;
       break;
+    case constant.actions.FILL_TABLE:
+      change.trains = action.data;
+      break;
   }
   return Object.assign({}, state, change);
 }

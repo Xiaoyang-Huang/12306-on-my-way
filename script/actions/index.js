@@ -43,38 +43,23 @@ module.exports.searchData = function () {
   return function (dispatch, getState) {
     console.log("searchData", getState())
     var state = getState();
+    if(!state.form.origin || !state.form.destination || !state.form.time) return;
+    //disable chrome security check
     //"C:\Users\UserName\AppData\Local\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir
     //open -a "Google Chrome" --args --disable-web-security  --user-data-dir
-    axios.get(constant.api.query(state.form.origin.code, state.form.destination.code, "2017-02-08"))
-      .then(function(){
-        console.log("!!!!!!!!!!", arguments)
-      }, function(){
+    axios.get(constant.api.QUERY(state.form.origin.code, state.form.destination.code, state.form.time.format('YYYY-MM-DD')))
+      .then(function(data){
+        dispatch(this.fillTable(data.data))
+      }.bind(this), function(){
         console.log("??????????", arguments)
       })
+  }.bind(this);
+}
 
-    // $.getJSON(constant.api.query(state.form.origin.code, state.form.destination.code, "2017-02-08"), {}, function (data) {
-    //       if (data.query.results) {
-    //           var J_data = JSON.parse(JSON.stringify(data.query.results));
-    //           console.log("!!!!!!", J_data);
-    //       } else {
-    //           console.log("??????", J_data);
-    //       }
-    //   });
-
-    // var stationLoad = document.createElement('script');
-    // stationLoad.src = constant.api.query(state.form.origin.code, state.form.destination.code, "2017-02-08");
-    // stationLoad.onreadystatechange = function(){
-    //   console.log('onreadystatechange')
-    // }
-    // stationLoad.onload = function () {
-    //   for (var i in stationLoad) {
-    //     try {
-    //       console.log(i, stationLoad[i]);
-    //     } catch (e) {
-    //       console.error(e);
-    //     }
-    //   }
-    // }
-    // document.body.appendChild(stationLoad);
+module.exports.fillTable = function(data){
+  console.log("get train data", data);
+  return {
+    type: constant.actions.FILL_TABLE,
+    data: data.data
   }
 }

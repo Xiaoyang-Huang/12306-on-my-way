@@ -5,6 +5,7 @@ var actions = require('../actions/index.js');
 
 var StationInput = require('./StationInput.jsx');
 var DatePicker = require('./DatePicker.jsx');
+var TrainList = require('./TrainList');
 
 module.exports = ReactRedux.connect(null, function(dispatch){
   return {
@@ -31,6 +32,7 @@ module.exports = ReactRedux.connect(null, function(dispatch){
           <button className="submit" onClick={this.props.searchData}>搜索</button>
         </li>
       </ul>
+      <TrainList />
     </div>
     )
   }
