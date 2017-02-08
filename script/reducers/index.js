@@ -1,7 +1,7 @@
 var constant = require('../constant.js');
 
 module.exports = function (state, action) {
-  var change = state || { form: {}};
+  var change = state || { form: {}, selectedTrains:[], selectedSeats:[]};
   switch(action.type){
     case constant.actions.GET_STATION:
       change.stations = action.data;
@@ -16,8 +16,26 @@ module.exports = function (state, action) {
       change.form.time = action.data;
       break;
     case constant.actions.FILL_TABLE:
+      change.selectedTrains = [];
       change.trains = action.data;
       break;
+    case constant.actions.SET_SEARCH_SEAT:
+      if(!~change.selectedSeats.indexOf(action.data)) change.selectedSeats.push(action.data);
+      break;
+    case constant.actions.UNSET_SEARCH_SEAT:
+      var index = change.selectedSeats.indexOf(action.data);
+      if(~index) change.selectedSeats.splice(index, 1);
+      break;
+    case constant.actions.SET_SEARCH_TRAIN:
+      if(!~change.selectedTrains.indexOf(action.data)) change.selectedTrains.push(action.data);
+      break;
+    case constant.actions.UNSET_SEARCH_TRAIN:
+      var index = change.selectedTrains.indexOf(action.data);
+      if(~index) change.selectedTrains.splice(index, 1);
+      break;
+    case constant.actions.START_SEARCH:
+      change.searchData = action.data;
+      break;
   }
-  return Object.assign({}, state, change);
+  return Object.assign({}, change);
 }

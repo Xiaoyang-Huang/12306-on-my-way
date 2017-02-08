@@ -409,6 +409,13 @@ ul.form > li{ float: left;}
 ul.form > li span{ display: inline-block; padding: 0 10px;}
 ul.form button.submit{ padding: 0px 20px; font-family: Helvetica, sans-serif; font-weight: 300; font-size: 16px; border: 1px solid #47aada; border-radius: 4px;    line-height: 31px; margin: 0 10px; background-color: #47aada; color: #fff; cursor: pointer}
 
+.train-list{ width: 100%; text-align: center}
+.train-list tr td:first-child{ text-align: left}
+.train-list tr td{ height: 24px; line-height: 24px; border-top: 1px solid #EEE;}
+.train-list tfoot tr td:first-child{ text-align: right;}
+.train-list input {vertical-align: middle}
+.train-list tr th input{ margin-left: 5px;}
+
 .react-autosuggest__container {
   position: relative;
   display: inline-block;
