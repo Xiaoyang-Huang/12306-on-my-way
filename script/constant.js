@@ -1,4 +1,4 @@
-module.exports = {
+var constant = {
   actions:{
     GET_STATION:'GET_STATION',
     SET_ORIGIN:"SET_ORIGIN",
@@ -13,9 +13,11 @@ module.exports = {
     ROLLBACK_SEARCH_ITEM:"ROLLBACK_SEARCH_ITEM"
   },
   api:{
+    DOMAIN:"https://kyfw.12306.cn/",
+    INIT:"https://kyfw.12306.cn/otn/leftTicket/init",
     STATION:"https://kyfw.12306.cn/otn/resources/js/framework/station_name.js?station_version=1.8994",
     QUERY_ALL: function(originCode, destinationCode, depatureDate){
-      return "https://kyfw.12306.cn/otn/leftTicket/queryZ" + 
+      return "https://kyfw.12306.cn/otn/" + CLeftTicketUrl +
         "?leftTicketDTO.train_date=" + depatureDate +
         "&leftTicketDTO.from_station=" + originCode + 
         "&leftTicketDTO.to_station=" + destinationCode + 
@@ -28,6 +30,6 @@ module.exports = {
         "&to_station_telecode=" + destinationCode +
         "&depart_date=" + depatureDate
     }
-  },
-  
+  }
 }
+module.exports = constant

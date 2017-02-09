@@ -1,20 +1,39 @@
 var axios = require('axios');
 var constant = require('../constant.js');
 
-module.exports.getStations = function (stations) {
-  var data = [];
-  for (var i = 0, il = stations.length; i < il; i++) {
-    var dataItems = stations[i].split('|');
-    //@bjb|北京北|VAP|beijingbei|bjb|0
-    data.push({
-      name: dataItems[1],
-      code: dataItems[2],
-      pinyin: dataItems[3]
-    })
-  }
-  return {
-    type: constant.actions.GET_STATION,
-    data: data
+module.exports.getStations = function () {
+  return function(dispatch, getState){
+    axios.get(constant.api.INIT).then(function(data){
+      var html = data.data;
+      var CLeftTicketUrl = /var\sCLeftTicketUrl\s=\s\'(.*)\'/.exec(html);
+      if(CLeftTicketUrl.length == 2){
+        CLeftTicketUrl = CLeftTicketUrl[1];
+        var global = global || window;
+        global.CLeftTicketUrl = CLeftTicketUrl;
+        // console.log("CLeftTicketUrl", CLeftTicketUrl)
+        axios.get(constant.api.STATION).then(function(data){
+          var stations = data.data.match(/@([^\|]+\|){5}\d+/g);
+          var data = [];
+
+          for (var i = 0, il = stations.length; i < il; i++) {
+            var dataItems = stations[i].split('|');
+            //@bjb|北京北|VAP|beijingbei|bjb|0
+            data.push({
+              name: dataItems[1],
+              code: dataItems[2],
+              pinyin: dataItems[3]
+            })
+          }
+
+          dispatch({
+            type: constant.actions.GET_STATION,
+            data: data
+          });
+        }.bind(this))
+      }else{
+        console.error("can not found CLeftTicketUrl")
+      }
+    }.bind(this))
   }
 }
 

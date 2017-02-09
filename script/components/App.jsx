@@ -8,15 +8,26 @@ var DatePicker = require('./DatePicker.jsx');
 var TrainList = require('./TrainList');
 var SearchResult = require('./SearchResult.jsx');
 
-module.exports = ReactRedux.connect(null, function(dispatch){
+module.exports = ReactRedux.connect(function(store){
+    return {
+      inited: store.inited
+    }
+  }, function(dispatch){
   return {
+    getStations: function(){ dispatch(actions.getStations())},
     searchData: function(){ dispatch(actions.searchData())}
   }
 })(React.createClass({
   componentDidMount: function(){
-    // actions.getStations();
+    this.props.getStations();
   },
   render: function(){
+    if(!this.props.inited) return (
+      <div>
+        正在初始化
+      </div>
+    )
+
     return (
     <div>
       <ul className="form">

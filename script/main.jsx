@@ -27,17 +27,13 @@ stationLoad.onload = function(){
   </ReactRedux.Provider>, document.getElementById('main'))
 }
 document.body.appendChild(stationLoad);*/
+var store = Redux.createStore(reducer, Redux.applyMiddleware(Thunk));
 
-axios.get(constant.api.STATION).then(function(data){
-  var stations = data.data.match(/@([^\|]+\|){5}\d+/g);
-  var store = Redux.createStore(reducer, Redux.applyMiddleware(Thunk));
-
-  store.dispatch(actions.getStations(stations));
-
-  ReactDOM.render(<ReactRedux.Provider store={store}>
-      <App />
-  </ReactRedux.Provider>, document.getElementById('main'))
-})
+ReactDOM.render(
+  <ReactRedux.Provider store={store}>
+    <App />
+  </ReactRedux.Provider>, document.getElementById('main')
+)
 
 
 

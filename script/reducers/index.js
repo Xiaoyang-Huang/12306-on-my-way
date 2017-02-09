@@ -4,6 +4,7 @@ module.exports = function (state, action) {
   var change = state || { form: {}, selectedTrains:[], selectedSeats:[]};
   switch(action.type){
     case constant.actions.GET_STATION:
+      change.inited = true;
       change.stations = action.data;
       break;
     case constant.actions.SET_ORIGIN:
