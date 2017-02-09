@@ -229,8 +229,10 @@ module.exports.startSearch = function () {
 module.exports.searchItem = function () {
   return function (dispatch, getState) {
     var state = getState();
-    var item = state.searchData.pop();
-    console.group('正在查询 ' + item.origin.name + ' 到 ' + item.destination.name + ' 的列车');
+    var item = state.searchData.shift();
+    var trainNumbers = item.trains.map(function(o){return o.queryLeftNewDTO.station_train_code;});
+    var groupName = '正在查询 ' + item.origin.name + ' 到 ' + item.destination.name + ' 的列车(' + trainNumbers.join(',') + ')';
+    console.group(groupName);
     axios.get(constant.api.QUERY_ALL(item.origin.code, item.destination.code, state.form.time.format('YYYY-MM-DD')))
       .then(function (data) {
         var trains = data.data.data;
@@ -242,16 +244,26 @@ module.exports.searchItem = function () {
             console.log("列车:", train.queryLeftNewDTO.station_train_code + "(" + train.queryLeftNewDTO.train_no + ")", (train.queryLeftNewDTO.canWebBuy == 'N' ? "无票" : "有票"));
           }
         })
-        console.groupEnd('正在查询 ' + item.origin.name + ' 到 ' + item.destination.name + ' 的列车');
+        console.groupEnd(groupName);
         if (state.searchData.length > 0) {
-          setTimeout(function () {
+          // setTimeout(function () {
             dispatch(this.searchItem());
-          }.bind(this), 0);
+          // }.bind(this), 0);
         } else {
           console.log("查询完毕");
         }
-      }.bind(this), function () {
-        console.log("??????????", arguments)
-      })
+      }.bind(this), function (err) {
+        console.error(err)
+        dispatch(this.rollbackSearchItem(item));
+        console.groupEnd(groupName);
+        dispatch(this.searchItem());
+      }.bind(this))
   }.bind(this)
+}
+
+module.exports.rollbackSearchItem = function(item){
+  return {
+    type: constant.actions.ROLLBACK_SEARCH_ITEM,
+    data: item
+  }
 }

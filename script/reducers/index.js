@@ -36,6 +36,9 @@ module.exports = function (state, action) {
     case constant.actions.START_SEARCH:
       change.searchData = action.data;
       break;
+    case constant.actions.ROLLBACK_SEARCH_ITEM:
+      change.searchData.push(action.data);
+      break;
   }
   return Object.assign({}, change);
 }

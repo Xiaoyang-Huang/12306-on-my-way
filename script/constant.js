@@ -9,7 +9,8 @@ module.exports = {
     UNSET_SEARCH_SEAT:"UNSET_SEARCH_SEAT",
     SET_SEARCH_TRAIN:"SET_SEARCH_TRAIN",
     UNSET_SEARCH_TRAIN:"UNSET_SEARCH_TRAIN",
-    START_SEARCH:"START_SEARCH"
+    START_SEARCH:"START_SEARCH",
+    ROLLBACK_SEARCH_ITEM:"ROLLBACK_SEARCH_ITEM"
   },
   api:{
     STATION:"https://kyfw.12306.cn/otn/resources/js/framework/station_name.js?station_version=1.8994",

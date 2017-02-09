@@ -6,6 +6,7 @@ var actions = require('../actions/index.js');
 var StationInput = require('./StationInput.jsx');
 var DatePicker = require('./DatePicker.jsx');
 var TrainList = require('./TrainList');
+var SearchResult = require('./SearchResult.jsx');
 
 module.exports = ReactRedux.connect(null, function(dispatch){
   return {
@@ -33,6 +34,7 @@ module.exports = ReactRedux.connect(null, function(dispatch){
         </li>
       </ul>
       <TrainList />
+      <SearchResult />
     </div>
     )
   }
