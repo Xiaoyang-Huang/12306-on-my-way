@@ -40,6 +40,13 @@ module.exports = function (state, action) {
     case constant.actions.ROLLBACK_SEARCH_ITEM:
       change.searchData.push(action.data);
       break;
+    case constant.actions.CANCEL_SEARCH:
+    case constant.actions.END_SEARCH:
+      change.searchData = [];
+      break;
+    case constant.actions.FOUND_TRAIN:
+      change.searchResult = action.data;
+      break;
   }
   return Object.assign({}, change);
 }

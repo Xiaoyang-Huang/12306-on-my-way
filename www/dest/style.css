@@ -403,18 +403,25 @@
 * { margin: 0; padding: 0;}
 #main{ width: 800px; margin: 0 auto;}
 
+button.submit{ padding: 0px 20px; font-family: Helvetica, sans-serif; font-weight: 300; font-size: 16px; border: 1px solid #47aada; border-radius: 4px;    line-height: 31px; margin: 0 10px; background-color: #47aada; color: #fff; cursor: pointer}
+
 ul.form { margin: 10px 0; list-style: none}
 ul.form:after{ content: ''; display: block; clear: both; height: 0; line-height: 0;}
 ul.form > li{ float: left;}
 ul.form > li span{ display: inline-block; padding: 0 10px;}
-ul.form button.submit{ padding: 0px 20px; font-family: Helvetica, sans-serif; font-weight: 300; font-size: 16px; border: 1px solid #47aada; border-radius: 4px;    line-height: 31px; margin: 0 10px; background-color: #47aada; color: #fff; cursor: pointer}
 
 .train-list{ width: 100%; text-align: center}
-.train-list tr td:first-child{ text-align: left}
+.train-list tr td:first-child{ text-align: left;}
 .train-list tr td{ height: 24px; line-height: 24px; border-top: 1px solid #EEE;}
 .train-list tfoot tr td:first-child{ text-align: right;}
 .train-list input {vertical-align: middle}
 .train-list tr th input{ margin-left: 5px;}
+.train-list .path td{ font-size: 24px; font-weight: bold; height: 30px; line-height: 30px;}
+.train-list .function{ height: 33px; line-height: 33px; font-size: 14px;}
+
+.result-mask{position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, .3);}
+.result-mask .result{position: fixed; top: 40px; bottom: 40px; left: 40px; right: 40px; overflow: auto; background: #FFFFFF;}
+
 
 .react-autosuggest__container {
   position: relative;

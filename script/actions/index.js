@@ -261,6 +261,14 @@ module.exports.searchItem = function () {
           })
           if (train) {
             console.log("列车:", train.queryLeftNewDTO.station_train_code + "(" + train.queryLeftNewDTO.train_no + ")", (train.queryLeftNewDTO.canWebBuy == 'N' ? "无票" : "有票"));
+            dispatch({
+              type: constant.actions.FOUND_TRAIN,
+              data: {
+                origin: item.origin,
+                destination: item.destination,
+                train: train
+              }
+            })
           }
         })
         console.groupEnd(groupName);
@@ -269,7 +277,9 @@ module.exports.searchItem = function () {
             dispatch(this.searchItem());
           // }.bind(this), 0);
         } else {
-          console.log("查询完毕");
+          dispatch({
+            type: constant.actions.END_SEARCH
+          })
         }
       }.bind(this), function (err) {
         console.error(err)
@@ -284,5 +294,11 @@ module.exports.rollbackSearchItem = function(item){
   return {
     type: constant.actions.ROLLBACK_SEARCH_ITEM,
     data: item
+  }
+}
+
+module.exports.cancelSearch = function(){
+  return {
+    type: constant.actions.CANCEL_SEARCH
   }
 }
