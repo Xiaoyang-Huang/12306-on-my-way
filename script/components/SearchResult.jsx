@@ -12,7 +12,8 @@ module.exports = ReactRedux.connect(function (store) {
   }
 }, function (dispatch) {
   return {
-    cancelSearch: function () { dispatch(actions.cancelSearch()) }
+    cancelSearch: function () { dispatch(actions.cancelSearch()) },
+    openOrderWindow: function(secretStr, origin, destination){ dispatch(actions.openOrderWindow(secretStr, origin, destination)) }
   }
 })(React.createClass({
   getInitialState: function () {
@@ -24,7 +25,6 @@ module.exports = ReactRedux.connect(function (store) {
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.result && nextProps.result != lastResult) {
       var target = nextProps.result
-      console.log(target.origin.name, target.destination.name);
       var found = this.state.result.find(function (o) {
         return o.origin.code == target.origin.code && o.destination.code == target.destination && o.train.queryLeftNewDTO.train_no == target.train.queryLeftNewDTO.train_no
       })
@@ -78,7 +78,7 @@ module.exports = ReactRedux.connect(function (store) {
             <td>{train.queryLeftNewDTO.yz_num}</td>
             <td>{train.queryLeftNewDTO.wz_num}</td>
             <td>{train.queryLeftNewDTO.qt_num}</td>
-            <td></td>
+            <td><button className="submit" onClick={this.props.openOrderWindow.bind(this, train.secretStr, o.origin.name, o.destination.name)}>购买</button></td>
           </tr>
         )
       }
@@ -101,35 +101,37 @@ module.exports = ReactRedux.connect(function (store) {
       return (
         <div className="result-mask">
           <div className="result">
-            <table className="train-list">
-              <thead>
-                <tr className="function">
-                  <th colSpan="3">只显示有票车次<input type="checkbox" checked={this.state.showAll ? "" : "checked"} onChange={this.changeShowAll} /></th>
-                  <th colSpan="11"></th>
-                  <th>{(this.props.search && this.props.search.length) ? <p>正在查询</p> : <button className="submit" onClick={this.closeResult}>关闭</button>}</th>
-                </tr>
-                <tr>
-                  <th>车次</th>
-                  <th>起止时间</th>
-                  <th>乘坐时间</th>
-                  <th>商务座</th>
-                  <th>特等座</th>
-                  <th>一等座</th>
-                  <th>二等座</th>
-                  <th>高级软卧</th>
-                  <th>软卧</th>
-                  <th>硬卧</th>
-                  <th>软座</th>
-                  <th>硬座</th>
-                  <th>无座</th>
-                  <th>其他</th>
-                  <th>购票链接</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.buildList()}
-              </tbody>
-            </table>
+            <div className="train-list-wrap">
+              <table className="train-list">
+                <thead>
+                  <tr className="function">
+                    <th colSpan="3">只显示有票车次<input type="checkbox" checked={this.state.showAll ? "" : "checked"} onChange={this.changeShowAll} /></th>
+                    <th colSpan="11"></th>
+                    <th>{(this.props.search && this.props.search.length) ? <p>正在查询</p> : <button className="submit" onClick={this.closeResult}>关闭</button>}</th>
+                  </tr>
+                  <tr>
+                    <th>车次</th>
+                    <th>起止时间</th>
+                    <th>乘坐时间</th>
+                    <th>商务座</th>
+                    <th>特等座</th>
+                    <th>一等座</th>
+                    <th>二等座</th>
+                    <th>高级软卧</th>
+                    <th>软卧</th>
+                    <th>硬卧</th>
+                    <th>软座</th>
+                    <th>硬座</th>
+                    <th>无座</th>
+                    <th>其他</th>
+                    <th>购票链接</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.buildList()}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )

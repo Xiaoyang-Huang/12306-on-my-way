@@ -1,5 +1,5 @@
 {
-  "name": "buy-a-train",
+  "name": "on-my-way",
   "version": "1.0.0",
   "description": "search on 12306 just for a train ticket",
   "main": "index.js",

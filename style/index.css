@@ -8,6 +8,7 @@ ul.form:after{ content: ''; display: block; clear: both; height: 0; line-height:
 ul.form > li{ float: left;}
 ul.form > li span{ display: inline-block; padding: 0 10px;}
 
+.train-list-wrap{ padding: 10px;}
 .train-list{ width: 100%; text-align: center}
 .train-list tr td:first-child{ text-align: left;}
 .train-list tr td{ height: 24px; line-height: 24px; border-top: 1px solid #EEE;}

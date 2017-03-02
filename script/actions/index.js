@@ -302,3 +302,27 @@ module.exports.cancelSearch = function(){
     type: constant.actions.CANCEL_SEARCH
   }
 }
+
+module.exports.openOrderWindow = function(secretStr, origin, destination){
+  return function(dispatch, getState){
+    var state = getState();
+    var formData = new FormData();
+    formData.append("secretStr", decodeURIComponent(secretStr));
+    formData.append("train_date",state.form.time.format('YYYY-MM-DD'));
+    formData.append("back_train_date",state.form.time.format('YYYY-MM-DD'));
+    formData.append("tour_flag","dc");
+    formData.append("purpose_codes","ADULT");
+    formData.append("query_from_station_name",origin);
+    formData.append("query_to_station_name",destination);
+    axios.post(constant.api.SUBMIT_ORDER, formData).then(function(data){
+      console.log("!!!!", data);
+      if(data.data.status){
+        window.open(constant.api.ORDER, "_blank");
+      }else{
+        alert(data.data.messages[0]);
+      }
+    }, function(data){
+      alert('订单提交错误,请重试');
+    })
+  }
+}

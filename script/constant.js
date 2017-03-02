@@ -13,7 +13,8 @@ var constant = {
     END_SEARCH:"END_SEARCH",
     CANCEL_SEARCH:"CANCEL_SEARCH",
     ROLLBACK_SEARCH_ITEM:"ROLLBACK_SEARCH_ITEM",
-    FOUND_TRAIN:"FOUND_TRAIN"
+    FOUND_TRAIN:"FOUND_TRAIN",
+    DO_NOTHING:"DO_NOTHING"
   },
   api:{
     DOMAIN:"https://kyfw.12306.cn/",
@@ -32,7 +33,9 @@ var constant = {
         "&from_station_telecode=" + originCode +
         "&to_station_telecode=" + destinationCode +
         "&depart_date=" + depatureDate
-    }
+    },
+    SUBMIT_ORDER:"https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest",
+    ORDER:"https://kyfw.12306.cn/otn/confirmPassenger/initDc"
   }
 }
 module.exports = constant

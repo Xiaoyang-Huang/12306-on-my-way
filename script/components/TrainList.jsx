@@ -60,7 +60,7 @@ module.exports = ReactRedux.connect(function (store) {
           <td>
             {o.queryLeftNewDTO.start_station_name}
             <br />
-            {o.queryLeftNewDTO.to_station_name}
+            {o.queryLeftNewDTO.end_station_name}
           </td>
           <td>
             {o.queryLeftNewDTO.start_time}
@@ -92,6 +92,17 @@ module.exports = ReactRedux.connect(function (store) {
       )
     }.bind(this))
   },
+// <input checked={~this.props.selectedSeats.indexOf("swz_num") ? "checked" : ""} data-seat="swz_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("tz_num") ? "checked" : ""} data-seat="tz_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("zy_num") ? "checked" : ""} data-seat="zy_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("ze_num") ? "checked" : ""} data-seat="ze_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("gr_num") ? "checked" : ""} data-seat="gr_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("rw_num") ? "checked" : ""} data-seat="rw_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("yw_num") ? "checked" : ""} data-seat="yw_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("rz_num") ? "checked" : ""} data-seat="rz_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("yz_num") ? "checked" : ""} data-seat="yz_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("wz_num") ? "checked" : ""} data-seat="wz_num" type="checkbox" onChange={this.selectSeat} />
+// <input checked={~this.props.selectedSeats.indexOf("qt_num") ? "checked" : ""} data-seat="qt_num" type="checkbox" onChange={this.selectSeat} />
   render: function () {
     if (this.props.trains.length) {
       return (
@@ -102,17 +113,17 @@ module.exports = ReactRedux.connect(function (store) {
               <th>起止站点</th>
               <th>起止时间</th>
               <th>状态</th>
-              <th>商务座<input checked={~this.props.selectedSeats.indexOf("swz_num") ? "checked" : ""} data-seat="swz_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>特等座<input checked={~this.props.selectedSeats.indexOf("tz_num") ? "checked" : ""} data-seat="tz_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>一等座<input checked={~this.props.selectedSeats.indexOf("zy_num") ? "checked" : ""} data-seat="zy_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>二等座<input checked={~this.props.selectedSeats.indexOf("ze_num") ? "checked" : ""} data-seat="ze_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>高级软卧<input checked={~this.props.selectedSeats.indexOf("gr_num") ? "checked" : ""} data-seat="gr_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>软卧<input checked={~this.props.selectedSeats.indexOf("rw_num") ? "checked" : ""} data-seat="rw_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>硬卧<input checked={~this.props.selectedSeats.indexOf("yw_num") ? "checked" : ""} data-seat="yw_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>软座<input checked={~this.props.selectedSeats.indexOf("rz_num") ? "checked" : ""} data-seat="rz_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>硬座<input checked={~this.props.selectedSeats.indexOf("yz_num") ? "checked" : ""} data-seat="yz_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>无座<input checked={~this.props.selectedSeats.indexOf("wz_num") ? "checked" : ""} data-seat="wz_num" type="checkbox" onChange={this.selectSeat} /></th>
-              <th>其他<input checked={~this.props.selectedSeats.indexOf("qt_num") ? "checked" : ""} data-seat="qt_num" type="checkbox" onChange={this.selectSeat} /></th>
+              <th>商务座</th>
+              <th>特等座</th>
+              <th>一等座</th>
+              <th>二等座</th>
+              <th>高级软卧</th>
+              <th>软卧</th>
+              <th>硬卧</th>
+              <th>软座</th>
+              <th>硬座</th>
+              <th>无座</th>
+              <th>其他</th>
               <th>查询该车<input type="checkbox" onChange={this.selectAllTrain} /></th>
             </tr>
           </thead>
