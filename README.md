@@ -1,7 +1,7 @@
 # 12306 on my way
 ## 这不是一个抢票工具! 但他很大概率可以帮你买到回家的票!
 ### 使用方式:
-> * 安装插件(下载crx文件,目前只支持chrome) 
+> * 安装插件([下载crx文件](https://raw.githubusercontent.com/Xiaoyang-Huang/12306-on-my-way/master/www/www.crx),目前只支持chrome) 
 > * **登录**12306
 > * 打开插件,输入你的**出发地**和**目的地**以及**出发日期**
 > * **勾选**你想乘坐的车次
