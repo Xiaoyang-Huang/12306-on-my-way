@@ -47,6 +47,10 @@ module.exports = function (state, action) {
     case constant.actions.FOUND_TRAIN:
       change.searchResult = action.data;
       break;
+    case constant.actions.APP_ERROR:
+      change.error = true;
+      change.errorData = action.data;
+      break;
   }
   return Object.assign({}, change);
 }

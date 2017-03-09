@@ -33,7 +33,12 @@ module.exports.getStations = function () {
       }else{
         console.error("can not found CLeftTicketUrl")
       }
-    }.bind(this))
+    }.bind(this), function(err){
+      dispatch({
+        type: constant.actions.APP_ERROR,
+        data: err.message + ", 请先登录12306后再刷新页面"
+      })
+    })
   }
 }
 
