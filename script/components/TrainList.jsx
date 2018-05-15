@@ -22,7 +22,7 @@ module.exports = ReactRedux.connect(function (store) {
     var target = evt.target;
     var data = target.getAttribute('data-train');
     data = this.props.trains.find(function (o) {
-      return o.queryLeftNewDTO.train_no == data;
+      return o.train_no == data;
     })
     if (data) {
       // console.log(data, evt.target.checked, value)
@@ -53,38 +53,38 @@ module.exports = ReactRedux.connect(function (store) {
   },
   buildRows: function () {
     return this.props.trains.map(function (o, i) {
-      // console.log(o.queryLeftNewDTO.train_no, (~this.props.selectedTrains.indexOf(o.queryLeftNewDTO.train_no) ? "checked" : ""))
+      // console.log(o.train_no, (~this.props.selectedTrains.indexOf(o.train_no) ? "checked" : ""))
       return (
         <tr key={i}>
-          <td>{o.queryLeftNewDTO.station_train_code}</td>
+          <td>{o.station_train_code}</td>
           <td>
-            {o.queryLeftNewDTO.start_station_name}
+            {o.start_station_name}
             <br />
-            {o.queryLeftNewDTO.end_station_name}
+            {o.end_station_name}
           </td>
           <td>
-            {o.queryLeftNewDTO.start_time}
+            {o.start_time}
             <br />
-            {(Number.parseInt(o.queryLeftNewDTO.day_difference) > 0 ? o.queryLeftNewDTO.day_difference + "+" : "") + o.queryLeftNewDTO.arrive_time}
+            {(Number.parseInt(o.day_difference) > 0 ? o.day_difference + "+" : "") + o.arrive_time}
             <br />
-            {o.queryLeftNewDTO.lishi}
+            {o.lishi}
           </td>
-          <td>{o.queryLeftNewDTO.canWebBuy == 'N' ? 'N' : 'Y'}</td>
-          <td>{o.queryLeftNewDTO.swz_num}</td>
-          <td>{o.queryLeftNewDTO.tz_num}</td>
-          <td>{o.queryLeftNewDTO.zy_num}</td>
-          <td>{o.queryLeftNewDTO.ze_num}</td>
-          <td>{o.queryLeftNewDTO.gr_num}</td>
-          <td>{o.queryLeftNewDTO.rw_num}</td>
-          <td>{o.queryLeftNewDTO.yw_num}</td>
-          <td>{o.queryLeftNewDTO.rz_num}</td>
-          <td>{o.queryLeftNewDTO.yz_num}</td>
-          <td>{o.queryLeftNewDTO.wz_num}</td>
-          <td>{o.queryLeftNewDTO.qt_num}</td>
+          <td>{o.canWebBuy == 'N' ? 'N' : 'Y'}</td>
+          <td>{o.swz_num}</td>
+          <td>{o.tz_num}</td>
+          <td>{o.zy_num}</td>
+          <td>{o.ze_num}</td>
+          <td>{o.gr_num}</td>
+          <td>{o.rw_num}</td>
+          <td>{o.yw_num}</td>
+          <td>{o.rz_num}</td>
+          <td>{o.yz_num}</td>
+          <td>{o.wz_num}</td>
+          <td>{o.qt_num}</td>
           <td>
             <input
               checked={~this.props.selectedTrains.indexOf(o) ? "checked" : ""}
-              data-train={o.queryLeftNewDTO.train_no}
+              data-train={o.train_no}
               type="checkbox"
               onChange={this.selectTrain} />
           </td>

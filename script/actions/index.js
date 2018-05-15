@@ -1,17 +1,82 @@
 var axios = require('axios');
 var constant = require('../constant.js');
 
+function unzipTrainInfo(zipedString) {
+  var infos = zipedString.split('|');
+  return {
+    "secretStr": infos[0],
+    "train_no": infos[2],
+    "station_train_code": infos[3],
+    "start_station_telecode": infos[4],
+    "end_station_telecode": infos[5],
+    "from_station_telecode": infos[6],
+    "to_station_telecode": infos[7],
+    "start_time": infos[8],
+    "arrive_time": infos[9],
+    "lishi": infos[10],
+    "canWebBuy": infos[11],
+    "yp_info": infos[12],
+    "start_train_date": infos[13],
+    "train_seat_feature": infos[14],
+    "location_code": infos[15],
+    "from_station_no": infos[16],
+    "to_station_no": infos[17],
+    "is_support_card": infos[18],
+    "controlled_train_flag": infos[19],
+    "gg_num": infos[20] || '--',
+    "gr_num": infos[21] || '--',
+    "qt_num": infos[22] || '--',
+    "rw_num": infos[23] || '--',
+    "rz_num": infos[24] || '--',
+    "tz_num": infos[25] || '--',
+    "wz_num": infos[26] || '--',
+    "yb_num": infos[27] || '--',
+    "yw_num": infos[28] || '--',
+    "yz_num": infos[29] || '--',
+    "ze_num": infos[30] || '--',
+    "zy_num": infos[31] || '--',
+    "swz_num": infos[32] || '--',
+    "srrb_num": infos[33] || '--',
+    "yp_ex": infos[34],
+    "seat_types": infos[35]
+  }
+}
+
+function getLocationByStation(station_name) {
+  var lastChar = station_name.charAt(station_name.length - 1);
+  switch (true) {
+    case "东":
+    case "南":
+    case "西":
+    case "北":
+      return station_name.substr(0, station_name.length - 1);
+  }
+}
+
+function findStationIndex(station) {
+  var targetStation = new String(this);
+  var lastChar = targetStation.charAt(targetStation.length - 1);
+  switch (lastChar) {
+    case "东":
+    case "南":
+    case "西":
+    case "北":
+      targetStation = targetStation.substr(0, targetStation.length - 1);  
+  }
+  return targetStation.indexOf(station.station_name) == 0 || station.station_name.indexOf(targetStation) == 0;
+}
+
 module.exports.getStations = function () {
-  return function(dispatch, getState){
-    axios.get(constant.api.INIT).then(function(data){
+  return function (dispatch, getState) {
+    axios.get(constant.api.INIT).then(function (data) {
       var html = data.data;
       var CLeftTicketUrl = /var\sCLeftTicketUrl\s=\s\'(.*)\'/.exec(html);
-      if(CLeftTicketUrl.length == 2){
+      if (CLeftTicketUrl.length == 2) {
         CLeftTicketUrl = CLeftTicketUrl[1];
         var global = global || window;
         global.CLeftTicketUrl = CLeftTicketUrl;
         // console.log("CLeftTicketUrl", CLeftTicketUrl)
-        axios.get(constant.api.STATION).then(function(data){
+        axios.get(constant.api.STATION).then(function (data) {
           var stations = data.data.match(/@([^\|]+\|){5}\d+/g);
           var data = [];
 
@@ -30,10 +95,10 @@ module.exports.getStations = function () {
             data: data
           });
         }.bind(this))
-      }else{
+      } else {
         console.error("can not found CLeftTicketUrl")
       }
-    }.bind(this), function(err){
+    }.bind(this), function (err) {
       dispatch({
         type: constant.actions.APP_ERROR,
         data: err.message + ", 请先登录12306后再刷新页面"
@@ -74,73 +139,18 @@ module.exports.searchData = function () {
     axios.get(constant.api.QUERY_ALL(state.form.origin.code, state.form.destination.code, state.form.time.format('YYYY-MM-DD')))
       .then(function (data) {
         dispatch(this.fillTable(data.data))
-      }.bind(this), function () {
-        console.log("??????????", arguments)
+      }.bind(this)).catch(function () {
+        console.error("searchData error", arguments)
       })
   }.bind(this);
 }
 
 module.exports.fillTable = function (data) {
   console.log("get train data", data);
-  // { 
-  //   "queryLeftNewDTO": { 
-  //     "train_no": "6c000G130206", 
-  //     "station_train_code": "G1302", 
-  //     "start_station_telecode": "IZQ", 
-  //     "start_station_name": "广州南", 
-  //     "end_station_telecode": "AOH", 
-  //     "end_station_name": "上海虹桥", 
-  //     "from_station_telecode": "HVQ", 
-  //     "from_station_name": "衡阳东", 
-  //     "to_station_telecode": "AOH", 
-  //     "to_station_name": "上海虹桥", 
-  //     "start_time": "13:30", 
-  //     "arrive_time": "19:51", 
-  //     "day_difference": "0", 
-  //     "train_class_name": "", 
-  //     "lishi": "06:21", 
-  //     "canWebBuy": "N", 
-  //     "lishiValue": "381", 
-  //     "yp_info": "1TTzgiSp8yjQoKNO7cKClG%2BSD86iRpNeEVUqylXlyXI0mC0V", 
-  //     "control_train_day": "20991231", 
-  //     "start_train_date": "20170208", 
-  //     "seat_feature": "O3M393", 
-  //     "yp_ex": "O0M090", 
-  //     "train_seat_feature": "3", 
-  //     "seat_types": "OM9", 
-  //     "location_code": "Q9", 
-  //     "from_station_no": "04", 
-  //     "to_station_no": "17", 
-  //     "control_day": 29, 
-  //     "sale_time": "1600", 
-  //     "is_support_card": "0", 
-  //     "controlled_train_flag": "0", 
-  //     "controlled_train_message": "正常车次，不受控", 
-  //     "train_type_code": "2", 
-  //     "start_province_code": "16", 
-  //     "start_city_code": "1502", 
-  //     "end_province_code": "33", 
-  //     "end_city_code": "0712", 
-  //     "yz_num": "--", 
-  //     "rz_num": "--", 
-  //     "yw_num": "--", 
-  //     "rw_num": "--", 
-  //     "gr_num": "--", 
-  //     "zy_num": "无", 
-  //     "ze_num": "无", 
-  //     "tz_num": "--", 
-  //     "gg_num": "--", 
-  //     "yb_num": "--", 
-  //     "wz_num": "--", 
-  //     "qt_num": "--", 
-  //     "swz_num": "无" 
-  //   },
-  //   "secretStr": "", 
-  //   "buttonTextInfo": "预订" 
-  // }
+  var rows = data.data.result.map(unzipTrainInfo)
   return {
     type: constant.actions.FILL_TABLE,
-    data: data.data
+    data: rows
   }
 }
 
@@ -180,16 +190,13 @@ module.exports.startSearch = function () {
     for (var i = 0, il = state.selectedTrains.length; i < il; i++) {
       var train = state.selectedTrains[i];
       requests.push((function (train) {
-        return axios.get(constant.api.QUERY_TRAIN(train.queryLeftNewDTO.train_no, train.queryLeftNewDTO.start_station_telecode, train.queryLeftNewDTO.end_station_telecode, state.form.time.format('YYYY-MM-DD')))
+        return axios.get(constant.api.QUERY_TRAIN(train.train_no, train.start_station_telecode, train.end_station_telecode, state.form.time.format('YYYY-MM-DD')))
           .then(function (data) {
             var stations = data.data.data.data;
-            var startStationIndex = stations.findIndex(function (o) {
-              return !o.station_name.indexOf(state.form.origin.name);
-            })
-            var endStationIndex = stations.findIndex(function (o) {
-              return !o.station_name.indexOf(state.form.destination.name);
-            })
-            console.log(train.queryLeftNewDTO.station_train_code + "(" + train.queryLeftNewDTO.train_no + ")", startStationIndex, endStationIndex, stations.length)
+            console.log("startSearch: get stations", stations, state.form);
+            var startStationIndex = stations.findIndex(findStationIndex.bind(state.form.origin.name));
+            var endStationIndex = stations.findIndex(findStationIndex.bind(state.form.destination.name));
+            console.log(train.station_train_code + "(" + train.train_no + ")", "startStationIndex", startStationIndex, "endStationIndex", endStationIndex, "stations", stations.length)
             if (~startStationIndex && ~endStationIndex) {
               var wholeTrip = data.data.data[0];
               for (var j = 0, jl = startStationIndex + 1; j < jl; j++) {
@@ -211,7 +218,7 @@ module.exports.startSearch = function () {
                   //todo: if departure time was early than now, ignore this station.
                   var endStation = stations[k];
                   var key = startStation.station_name + "-" + endStation.station_name;
-                  // console.log(key);
+                  console.log("startSearch: key", key);
                   if (searchTrip[key]) {
                     searchTrip[key].push(train);
                   } else {
@@ -254,18 +261,23 @@ module.exports.searchItem = function () {
   return function (dispatch, getState) {
     var state = getState();
     var item = state.searchData.shift();
-    var trainNumbers = item.trains.map(function(o){return o.queryLeftNewDTO.station_train_code;});
+    // console.log("searchItem: get item", item);
+    var trainNumbers = item.trains.map(function (o) { return o.station_train_code; });
     var groupName = '正在查询 ' + item.origin.name + ' 到 ' + item.destination.name + ' 的列车(' + trainNumbers.join(',') + ')';
     console.group(groupName);
     axios.get(constant.api.QUERY_ALL(item.origin.code, item.destination.code, state.form.time.format('YYYY-MM-DD')))
-      .then(function (data) {
-        var trains = data.data.data;
+      .then(function (result) {
+        // console.log("searchItem: axios result", result, typeof result.data);
+        if(typeof result.data === 'string'){
+          throw "查询时遇到错误";
+        }
+        var trains = result.data.data.result.map(unzipTrainInfo);
         item.trains.map(function (o) {
           var train = trains.find(function (io) {
-            return o.queryLeftNewDTO.train_no == io.queryLeftNewDTO.train_no;
+            return o.train_no == io.train_no;
           })
           if (train) {
-            console.log("列车:", train.queryLeftNewDTO.station_train_code + "(" + train.queryLeftNewDTO.train_no + ")", (train.queryLeftNewDTO.canWebBuy == 'N' ? "无票" : "有票"));
+            console.log("列车:", train.station_train_code + "(" + train.train_no + ")", (train.canWebBuy == 'N' ? "无票" : "有票"));
             dispatch({
               type: constant.actions.FOUND_TRAIN,
               data: {
@@ -279,15 +291,15 @@ module.exports.searchItem = function () {
         console.groupEnd(groupName);
         if (state.searchData.length > 0) {
           // setTimeout(function () {
-            dispatch(this.searchItem());
+          dispatch(this.searchItem());
           // }.bind(this), 0);
         } else {
           dispatch({
             type: constant.actions.END_SEARCH
           })
         }
-      }.bind(this), function (err) {
-        console.error(err)
+      }.bind(this)).catch(function (err) {
+        console.error(err, item);
         dispatch(this.rollbackSearchItem(item));
         console.groupEnd(groupName);
         dispatch(this.searchItem());
@@ -295,38 +307,38 @@ module.exports.searchItem = function () {
   }.bind(this)
 }
 
-module.exports.rollbackSearchItem = function(item){
+module.exports.rollbackSearchItem = function (item) {
   return {
     type: constant.actions.ROLLBACK_SEARCH_ITEM,
     data: item
   }
 }
 
-module.exports.cancelSearch = function(){
+module.exports.cancelSearch = function () {
   return {
     type: constant.actions.CANCEL_SEARCH
   }
 }
 
-module.exports.openOrderWindow = function(secretStr, origin, destination){
-  return function(dispatch, getState){
+module.exports.openOrderWindow = function (secretStr, origin, destination) {
+  return function (dispatch, getState) {
     var state = getState();
     var formData = new FormData();
-    formData.append("secretStr", decodeURIComponent(secretStr));
-    formData.append("train_date",state.form.time.format('YYYY-MM-DD'));
-    formData.append("back_train_date",state.form.time.format('YYYY-MM-DD'));
-    formData.append("tour_flag","dc");
-    formData.append("purpose_codes","ADULT");
-    formData.append("query_from_station_name",origin);
-    formData.append("query_to_station_name",destination);
-    axios.post(constant.api.SUBMIT_ORDER, formData).then(function(data){
+    formData.append("secretStr", secretStr);
+    formData.append("train_date", state.form.time.format('YYYY-MM-DD'));
+    formData.append("back_train_date", state.form.time.format('YYYY-MM-DD'));
+    formData.append("tour_flag", "dc");
+    formData.append("purpose_codes", "ADULT");
+    formData.append("query_from_station_name", origin);
+    formData.append("query_to_station_name", destination);
+    axios.post(constant.api.SUBMIT_ORDER, formData).then(function (data) {
       console.log("!!!!", data);
-      if(data.data.status){
+      if (data.data.status) {
         window.open(constant.api.ORDER, "_blank");
-      }else{
+      } else {
         alert(data.data.messages[0]);
       }
-    }, function(data){
+    }, function (data) {
       alert('订单提交错误,请重试');
     })
   }

@@ -29,6 +29,7 @@ module.exports = function (state, action) {
       break;
     case constant.actions.SET_SEARCH_TRAIN:
       if(!~change.selectedTrains.indexOf(action.data)) change.selectedTrains.push(action.data);
+      console.log("!?!?!?!?", change.selectedTrains);
       break;
     case constant.actions.UNSET_SEARCH_TRAIN:
       var index = change.selectedTrains.indexOf(action.data);

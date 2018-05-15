@@ -26,7 +26,7 @@ module.exports = ReactRedux.connect(function (store) {
     if (nextProps.result && nextProps.result != lastResult) {
       var target = nextProps.result
       var found = this.state.result.find(function (o) {
-        return o.origin.code == target.origin.code && o.destination.code == target.destination && o.train.queryLeftNewDTO.train_no == target.train.queryLeftNewDTO.train_no
+        return o.origin.code == target.origin.code && o.destination.code == target.destination && o.train.train_no == target.train.train_no
       })
       if (found) {
         found.train = nextProps.result.train;
@@ -42,9 +42,9 @@ module.exports = ReactRedux.connect(function (store) {
     this.state.result.forEach(function (o, i) {
       var train = o.train;
       var self_train = this.props.trains.find(function (o) {
-        return o.queryLeftNewDTO.train_no == train.queryLeftNewDTO.train_no;
+        return o.train_no == train.train_no;
       })
-      if (this.state.showAll || train.queryLeftNewDTO.canWebBuy == 'Y') {
+      if (this.state.showAll || train.canWebBuy == 'Y') {
         if (o.origin.code != currentOrigin.code || o.destination.code != currentDestination.code) {
           content.push(<tr className="path" key={i + ".path"}><td colSpan="16">{o.origin.name} - {o.destination.name}</td></tr>);
           currentOrigin = o.origin;
@@ -52,32 +52,32 @@ module.exports = ReactRedux.connect(function (store) {
         }
         content.push(
           <tr key={i}>
-            <td>{train.queryLeftNewDTO.station_train_code}</td>
+            <td>{train.station_train_code}</td>
             <td>
-              {train.queryLeftNewDTO.start_time}
+              {train.start_time}
               <br />
-              {(Number.parseInt(train.queryLeftNewDTO.day_difference) > 0 ? train.queryLeftNewDTO.day_difference + "+" : "") + train.queryLeftNewDTO.arrive_time}
+              {(Number.parseInt(train.day_difference) > 0 ? train.day_difference + "+" : "") + train.arrive_time}
               <br />
-              {train.queryLeftNewDTO.lishi}
+              {train.lishi}
             </td>
             <td>
-              {self_train.queryLeftNewDTO.start_time}
+              {self_train.start_time}
               <br />
-              {(Number.parseInt(self_train.queryLeftNewDTO.day_difference) > 0 ? self_train.queryLeftNewDTO.day_difference + "+" : "") + self_train.queryLeftNewDTO.arrive_time}
+              {(Number.parseInt(self_train.day_difference) > 0 ? self_train.day_difference + "+" : "") + self_train.arrive_time}
               <br />
-              {self_train.queryLeftNewDTO.lishi}
+              {self_train.lishi}
             </td>
-            <td>{train.queryLeftNewDTO.swz_num}</td>
-            <td>{train.queryLeftNewDTO.tz_num}</td>
-            <td>{train.queryLeftNewDTO.zy_num}</td>
-            <td>{train.queryLeftNewDTO.ze_num}</td>
-            <td>{train.queryLeftNewDTO.gr_num}</td>
-            <td>{train.queryLeftNewDTO.rw_num}</td>
-            <td>{train.queryLeftNewDTO.yw_num}</td>
-            <td>{train.queryLeftNewDTO.rz_num}</td>
-            <td>{train.queryLeftNewDTO.yz_num}</td>
-            <td>{train.queryLeftNewDTO.wz_num}</td>
-            <td>{train.queryLeftNewDTO.qt_num}</td>
+            <td>{train.swz_num}</td>
+            <td>{train.tz_num}</td>
+            <td>{train.zy_num}</td>
+            <td>{train.ze_num}</td>
+            <td>{train.gr_num}</td>
+            <td>{train.rw_num}</td>
+            <td>{train.yw_num}</td>
+            <td>{train.rz_num}</td>
+            <td>{train.yz_num}</td>
+            <td>{train.wz_num}</td>
+            <td>{train.qt_num}</td>
             <td><button className="submit" onClick={this.props.openOrderWindow.bind(this, train.secretStr, o.origin.name, o.destination.name)}>购买</button></td>
           </tr>
         )

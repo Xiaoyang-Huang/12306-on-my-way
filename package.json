@@ -7,6 +7,9 @@
     "12306",
     "ticket"
   ],
+  "scripts": {
+    "start":"gulp"
+  },
   "author": "Huang Xiaoyang",
   "license": "ISC",
   "devDependencies": {
